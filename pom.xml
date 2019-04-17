@@ -24,6 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <spring-cloud.version>Finchley.M9</spring-cloud.version>
+        <zipkin.version>2.11.12</zipkin.version>
     </properties>
 
     <modules>
@@ -33,6 +34,7 @@
         <module>springcloud-provider</module>
         <module>springcloud-provider2</module>
         <module>springcloud-consumer</module>
+        <module>springcloud-zipkin-server</module>
     </modules>
 
     <dependencies>
