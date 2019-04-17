@@ -16,6 +16,7 @@ public class ConsumerController {
     @RequestMapping("/hello/{name}")
     public String index(@PathVariable("name") String name) {
         return helloService.hello(name);
+
     }
 
 }

@@ -20,7 +20,6 @@ public class PredicateTest {
 
         System.out.println(p.test(content));
 
-        PredicateDefinition pd = new PredicateDefinition();
 
     }
 }
