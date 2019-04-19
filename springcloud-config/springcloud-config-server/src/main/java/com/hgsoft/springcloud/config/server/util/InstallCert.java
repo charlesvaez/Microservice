@@ -13,7 +13,7 @@ public class InstallCert {
         String host;
         int port;
         char[] passphrase;
-        args = new String[]{"github.com:443","123456"};
+        args = new String[]{"github.com:443", "123456"};
         if ((args.length == 1) || (args.length == 2)) {
             String[] c = args[0].split(":");
             host = c[0];
@@ -45,13 +45,13 @@ public class InstallCert {
         TrustManagerFactory tmf =
                 TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         tmf.init(ks);
-        X509TrustManager defaultTrustManager = (X509TrustManager)tmf.getTrustManagers()[0];
+        X509TrustManager defaultTrustManager = (X509TrustManager) tmf.getTrustManagers()[0];
         SavingTrustManager tm = new SavingTrustManager(defaultTrustManager);
-        context.init(null, new TrustManager[] {tm}, null);
+        context.init(null, new TrustManager[]{tm}, null);
         SSLSocketFactory factory = context.getSocketFactory();
 
         System.out.println("Opening connection to " + host + ":" + port + "...");
-        SSLSocket socket = (SSLSocket)factory.createSocket(host, port);
+        SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
         socket.setSoTimeout(10000);
         try {
             System.out.println("Starting SSL handshake...");

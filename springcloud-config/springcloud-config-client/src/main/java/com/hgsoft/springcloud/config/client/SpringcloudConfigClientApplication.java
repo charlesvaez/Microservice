@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpringcloudConfigClientApplication {
     @Value("${foo}")
     String foo;
+
     @RequestMapping(value = "/hi")
-    public String hi(){
+    public String hi() {
         return foo;
     }
 
+    //手动刷新配置 http://localhost:9001/actuator/refresh 必须是post请求
+    //curl http://localhost:9001/actuator/refresh -v -X POST
+    //程序的入口类，写一个API接口“／hi”，返回从配置中心读取的foo变量的值
     public static void main(String[] args) {
         SpringApplication.run(SpringcloudConfigClientApplication.class, args);
     }
