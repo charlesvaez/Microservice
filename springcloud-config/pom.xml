@@ -18,6 +18,7 @@
 		<module>springcloud-config-client</module>
         <module>springcloud-config-server-file</module>
         <module>springcloud-config-client-file</module>
+		<module>springcloud-config-server-file-encrypt</module>
 	</modules>
 
 </project>
