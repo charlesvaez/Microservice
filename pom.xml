@@ -36,6 +36,7 @@
         <module>springcloud-provider2</module>
         <module>springcloud-consumer</module>
         <module>springcloud-zipkin-server</module>
+        <module>springcloud-no-duplication</module>
     </modules>
 
     <dependencies>
@@ -57,6 +58,16 @@
             <optional>true</optional>
         </dependency>
         <!--lombok-->
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
 
         <!--添加热部署-->
       <!--  <dependency>
