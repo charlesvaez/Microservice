@@ -1,4 +1,4 @@
-package com.hgsoft.springcloud.admin.server.config;
+package com.hgsoft.springcloud.admin.server.eureka.config;
 
 import de.codecentric.boot.admin.server.config.AdminServerProperties;
 import org.springframework.context.annotation.Configuration;
@@ -20,23 +20,17 @@ public class SecuritySecureConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-        successHandler.setTargetUrlParameter("redirectTo");
-        successHandler.setDefaultTargetUrl(adminContextPath + "/");
+        successHandler.setTargetUrlParameter( "redirectTo" );
 
         http.authorizeRequests()
-                .antMatchers(adminContextPath + "/assets/**").permitAll()
-                .antMatchers(adminContextPath + "/login").permitAll()
+                .antMatchers( adminContextPath + "/assets/**" ).permitAll()
+                .antMatchers( adminContextPath + "/login" ).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage(adminContextPath + "/login").successHandler(successHandler).and()
-                .logout().logoutUrl(adminContextPath + "/logout").and()
+                .formLogin().loginPage( adminContextPath + "/login" ).successHandler( successHandler ).and()
+                .logout().logoutUrl( adminContextPath + "/logout" ).and()
                 .httpBasic().and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringAntMatchers(
-                        adminContextPath + "/instances",
-                        adminContextPath + "/actuator/**"
-                );
+                .csrf().disable();
     }
 
 }
