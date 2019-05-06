@@ -38,6 +38,7 @@
         <module>springcloud-consumer</module>
         <module>springcloud-zipkin-server</module>
         <module>springcloud-no-duplication</module>
+        <module>springcloud-monitor</module>
     </modules>
 
     <dependencies>
