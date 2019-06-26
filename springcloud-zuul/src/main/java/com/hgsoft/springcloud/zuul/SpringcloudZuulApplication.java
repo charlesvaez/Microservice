@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableZuulProxy
 @Configuration
 public class SpringcloudZuulApplication {
-    @Bean
+//    @Bean
     public TokenFilter tokenFilter() {
         return new TokenFilter();
     }

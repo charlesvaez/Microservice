@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%-5p][%c:%L]: %m%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <!--Sentry配置-->
+    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <!--发送GELF UDP 到 graylog-->
+    <appender name="GelfUdp" class="de.siegmar.logbackgelf.GelfUdpAppender">
+        <!--graylogHost: IP or hostname of graylog server. If the hostname resolves to multiple ip addresses, round robin will be used.-->
+        <graylogHost>192.168.1.66</graylogHost>
+        <!--graylogPort: Port of graylog server. Default: 12201.-->
+        <graylogPort>12201</graylogPort>
+        <!--maxChunkSize: Maximum size of GELF chunks in bytes. Default chunk size is 508 - this prevents IP packet fragmentation. This is also the recommended minimum. Maximum supported chunk size is 65,467 bytes.-->
+        <maxChunkSize>508</maxChunkSize>
+        <!--useCompression: If true, compression of GELF messages is enabled. Default: true.-->
+        <useCompression>true</useCompression>
+        <encoder class="de.siegmar.logbackgelf.GelfEncoder">
+            <!--originHost: Origin hostname - will be auto detected if not specified.-->
+            <originHost></originHost>
+            <!--includeRawMessage: If true, the raw message (with argument placeholders) will be sent, too. Default: false.-->
+            <includeRawMessage>false</includeRawMessage>
+            <!--includeMarker: If true, logback markers will be sent, too. Default: true.-->
+            <includeMarker>true</includeMarker>
+            <!--includeMdcData: If true, MDC keys/values will be sent, too. Default: true.-->
+            <includeMdcData>true</includeMdcData>
+            <!--includeCallerData: If true, caller data (source file-, method-, class name and line) will be sent, too. Default: false.-->
+            <includeCallerData>false</includeCallerData>
+            <!--includeRootCauseData: If true, root cause exception of the exception passed with the log message will be exposed in the root_cause_class_name and root_cause_message fields. Default: false.-->
+            <includeRootCauseData>false</includeRootCauseData>
+            <!--includeLevelName: If true, the log level name (e.g. DEBUG) will be sent, too. Default: false.-->
+            <includeLevelName>false</includeLevelName>
+            <!--shortPatternLayout: Short message format. Default: "%m%nopex".-->
+            <shortPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%-5p][%c:%L]: %m%n</pattern>
+            </shortPatternLayout>
+            <!--fullPatternLayout: Full message format (Stacktrace). Default: "%m%n".-->
+            <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%-5p][%c:%L]: %m%n</pattern>
+            </fullPatternLayout>
+            <!--staticFields: Additional, static fields to send to graylog. Defaults: none.-->
+            <staticField>application:application name</staticField>
+        </encoder >
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="Console" />
+        <appender-ref ref="Sentry" />
+        <appender-ref ref="GelfUdp" />
+    </root>
+</configuration>
+

@@ -16,6 +16,7 @@ public class HelloController {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        return "hello "+name+"，this is second messge";
+        System.out.println("hello "+name+"，this is two messge");
+        return "hello "+name+"，this is two messge";
     }
 }

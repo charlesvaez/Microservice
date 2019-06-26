@@ -46,12 +46,16 @@
       static_configs:
       - targets: ['192.168.237.101:8772']
 
-docker run -d -p 9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+cd /root/prometheus
+docker run -d -p 9090:9090 --hostname prometheus  -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
 --$(pwd)为/root/prometheus目录
 
-docker run -d -p 3000:3000 grafana/grafana
+docker run -d -p 3000:3000 --hostname grafana grafana/grafana
 
 登录：访问 http://192.168.237.101:3000/login ，初始账号/密码为：admin/admin
+
+import dashboard
+  4701
 
 dashboards labs
     https://grafana.com/dashboards

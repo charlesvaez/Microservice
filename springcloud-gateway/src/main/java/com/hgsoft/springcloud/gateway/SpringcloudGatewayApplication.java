@@ -9,6 +9,7 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.socket.client.WebSocketClient;
 
 @SpringBootApplication
 //@Configuration
@@ -19,10 +20,12 @@ public class SpringcloudGatewayApplication {
     public TokenFilter tokenFilter(){
         return new TokenFilter();
     }
-    @Bean
-    public UriKeyResolver uriKeyResolver() {
-        return new UriKeyResolver();
-    }
+
+//    限流
+//    @Bean
+//    public UriKeyResolver uriKeyResolver() {
+//        return new UriKeyResolver();
+//    }
 
     public static void main(String[] args) {
         SpringApplication.run(SpringcloudGatewayApplication.class, args);
