@@ -1,0 +1,51 @@
+注册eureka延迟
+    说明
+    目前公司的整体架构都是基于spring cloud体系搭建起来，eureka在基中扮演服务注册和服务发现的角色，使用过程中明显感觉到服务运行启动后需要相当一段时间服务才能正常的被其他服务调用，
+    所以找时间了解一下里面的些许细节，通过调整配置服务注册生效的时间由原来的90s减少到13s内。
+
+    整体逻辑
+    对于高性能的应用程序来说，缓存和异步数据处理是必须的，同样在eureka整个处理过程中也使用到了类似技术以提高性能和可用性。
+    比如有服务：A服务，B服务，C服务(eureka server)，依赖关系是A->B，都依赖C的服务发现，完整处理逻辑可能是：
+        1、 A定时从C拉取最新的服务列表 -> serverlist
+        2、 A服务收到请求后，在调用B服务前由loadbalance选择一个B服务的实例进行请求，该loadbalance有维护服务列表的缓存
+        3、 B服务在启动完成后调用接口将自己注册到eureka server上面去
+        4、 eureka server在收到拉取最新服务列表的请求时，从缓存中获取服务列表信息返回给调用方
+    spring cloud对于第3步来说是立即注册的没有延迟，其他每一步都可能会有延迟，也有对应的配置可以做微调
+
+配置
+    eureka server:
+        // 清除失效服务间隔时间
+        eureka.server.EvictionIntervalTimerInMs=3000
+        // 响应数据缓存有效期
+        eureka.server.responseCacheUpdateIntervalMs=3000
+        //关闭自我保护
+        #eureka.server.enable-self-preservation=false
+
+    eureka client:
+        // 拉取服务列表间隔时间
+        eureka.client.registryFetchIntervalSeconds=5
+        // 负载均衡器服务列表缓存
+        ribbon.ServerListRefreshInterval=5000
+        // 指定时间内没有数据上报可能会被清理掉
+        eureka.instance.LeaseExpirationDurationInSeconds=15
+        // 服务状态上报间隔
+        eureka.instance.LeaseRenewalIntervalInSeconds=5
+
+    代码
+    EurekaAutoServiceRegistration start 完成自动注册功能
+    DiscoveryClient initScheduledTasks  设置定时任务获取最新服务列表
+    PollingServerListUpdater start  设置定时任务刷新ribbon的服务列表缓存
+
+
+
+========================================================================================================================
+    服务剔除
+        1、 KILL掉B服务,B服务超时 -> 15s （默认90s）
+        2、 eureka server清除失效服务间隔时间 -> 3s（默认60s）
+        3、 拉取最新服务列表 -> 13s
+
+
+
+
+
+
